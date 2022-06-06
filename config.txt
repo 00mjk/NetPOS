@@ -1,0 +1,54 @@
+[Database]
+
+IP = api.ntmedia.net
+Port = 27017
+Username = admin
+Password = nick9924
+
+
+[NetPOS]
+
+Alias = Main Terminal
+DefaultPage = main
+
+BackgroundColor = #544A7C
+ForegroundColor = #FFF7AE
+DefaultFont = Consolas
+DefaultFontSize = 16
+WidgetFontSize = 16
+DropdownBoxFontSize = 16
+Rows = 7
+Columns = 9
+HorizontalGap = 10
+VerticalGap = 10
+
+ButtonListRoot_X = 65
+ButtonListRoot_Y = 120
+ButtonWidth = 120
+ButtonHeight = 120
+
+ItemListRoot_X = 1300
+ItemListRoot_Y = 120
+ItemListFont = OpenSans
+ItemListFontSize = 20
+ItemListTextLength = 30
+ItemListLines = 12
+ItemListBackgroundColor = #ffffff
+ItemListForegroundColor = #000000
+ShowScrollbar = Yes
+ScrollbarThickness = 40
+
+ShowNumPad = Yes
+NumPadRoot_X = 1300
+NumPadRoot_Y = 500
+NumPadButtonWidth = 120
+NumPadButtonHeight = 120
+
+ShowShortcuts = Yes
+ShortcutsOrientation = Vertical
+ShortcutsRoot_X = 1800
+ShortcutsRoot_Y = 1000
+ShortcutsWidth = 120
+ShortcutsHeight = 120
+
+LogsEnabled = Yes

@@ -1,0 +1,20 @@
+-------------------------------------------------------------------------------
+NETPOS Project written by Nick
+Built in Python 3.9 for Ubuntu Server 20.04.3 (KDE)
+
+Required python packages = Tkinter (Python 3 version), pymongo, tkcolorpicker, configparser
+Required ubuntu packages = onboard
+
+
+-------------------------------------------------------------------------------
+                                DEVELOPMENT LOG
+-------------------------------------------------------------------------------
+
+2/4/2022 - Official re-start of development -- Old code from 2020 was discarded
+2/28/2022 - Buttons now draw from database properly, images don't load yet though.
+3/2/2022 - Added On-Screen Keyboard function with Onboard, also started edit mode function
+3/31/2022 - Fixed many bugs and optimized the way tiles are rendered
+4/1/2022 - Added several options for button editing, nearly complete.
+4/2/2022 - Finished button editing dialog, added page navigator, buttons for pages, items, user, and report configs
+4/3/2022 - Started page manager screen
+4/4/2022 - Finished page manager screen, started items screen
