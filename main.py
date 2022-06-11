@@ -855,17 +855,23 @@ def Draw(pagename,editmode=False):
             if not str(button["FontSize"]) == str(config['NetPOS']['DefaultFontSize']):
                 buttonsize = int(config['NetPOS']['DefaultFontSize'])
                 buttonoptionsize = button["FontSize"]
-                if buttonoptionsize == "Mini":
+                if buttonoptionsize == "Smaller":
                     buttonsize = int(round(buttonsize/2))
                     buttonwidget.config(font=(button["Font"], buttonsize))
                 elif buttonoptionsize == "Small":
                     buttonsize = int(round(((buttonsize/2)+buttonsize)/2))
                     buttonwidget.config(font=(button["Font"], buttonsize))
+                elif buttonoptionsize == "Smallest":
+                    buttonsize = int(round(((buttonsize/3)+buttonsize)/3))
+                    buttonwidget.config(font=(button["Font"], buttonsize))
                 elif buttonoptionsize == "Big":
                     buttonsize = int(round(((buttonsize * 2) + buttonsize) / 2))
                     buttonwidget.config(font=(button["Font"], buttonsize))
-                elif buttonoptionsize == "Huge":
+                elif buttonoptionsize == "Bigger":
                     buttonsize = int(round(buttonsize * 2))
+                    buttonwidget.config(font=(button["Font"], buttonsize))
+                elif buttonoptionsize == "Biggest":
+                    buttonsize = int(round(buttonsize * 3))
                     buttonwidget.config(font=(button["Font"], buttonsize))
                 else:
                     buttonsize = int(config['NetPOS']['DefaultFontSize'])

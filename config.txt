@@ -1,11 +1,11 @@
 [Database]
 
-IP = api.ntmedia.net
+IP = 192.168.1.120
 Port = 27017
 Username = admin
 Password = nick9924
 
-
+mainmain
 [NetPOS]
 
 Alias = Main Terminal
