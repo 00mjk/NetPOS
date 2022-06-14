@@ -12,6 +12,7 @@ from tkcolorpicker import askcolor
 import os
 from random import randint
 from datetime import datetime
+from webcolors import hex_to_name
 
 
 from tkcolorpicker import askcolor
@@ -31,6 +32,7 @@ databaselist = database.list_collection_names()
 
 if not 'pages' in databaselist:
     print("Page collection does not exist. Creating...")
+    database.create_collection("pages")
     pagescol = database["pages"]
     pagetemplate = {
         "PageID": randint(1, 9999999999999999),
@@ -38,16 +40,19 @@ if not 'pages' in databaselist:
         "BackgroundColor": "#87CFEC",
         "ForegroundColor": "#FFD993",
         "Buttons": [],
-        "PermissionListType": "None",
-        "PermissionListUsers": []
+        "PermissionListType": "Disabled",
+        "PermissionList": []
     }
     pagescol.insert_one(pagetemplate)
 if not 'buttons' in databaselist:
     print("Button collection does not exist. Creating...")
+    database.create_collection("buttons")
 if not 'items' in databaselist:
     print("Item collection does not exist. Creating...")
+    database.create_collection("items")
 if not 'users' in databaselist:
     print("User collection does not exist. Creating...")
+    database.create_collection("users")
 
 
 
@@ -121,6 +126,8 @@ affectedbuttoncontainer = []
 
 def EditButton(buttonID,emtype):
     global buttondictionary, highlightedbuttons, currentpage, affectedbuttoncontainer, settingwidgets
+    UpdateItemNames()
+    UpdatePageNames()
     for button in affectedbuttoncontainer:
         affectedbuttoncontainer.remove(button)
     Draw(currentpage,True)
@@ -234,6 +241,10 @@ def EditButton(buttonID,emtype):
         buttoncolorselector = Button(image=blankimage, bg=newbutton_buttoncolor.get(), width=100, height=35,command=lambda btnID=buttonID, ctype="button": ColorSelectorHandler(ctype,btnID))
         buttoncolorselector.place(x=int(config['NetPOS']['ItemListRoot_X']) + 300,
                                 y=int(config['NetPOS']['ItemListRoot_Y']) + 350)
+
+        buttonitemoptions = ["None"]
+        for item in itemoptions:
+            buttonitemoptions.append(item["Name"])
 
         itemlinkdropdownbox = OptionMenu(root, newbutton_linkeditem, *buttonitemoptions)
         itemlinkdropdownbox.config(font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
@@ -394,6 +405,34 @@ def ColorSelectorHandler(colortype,pageID=None):
         else:
             pass
     root.update_idletasks()
+
+def CreateNewItem():
+    newitemuuid = randint(1, 9999999999999999)
+    newitemname = "New Item"
+    newitemcopynumber = 1
+    existingitemnames = []
+    for item in itemoptions:
+        existingitemnames.append(str(item["Name"]))
+    while newitemname in existingitemnames:
+        newitemcopynumber += 1
+        newitemname = str("New Item " + str(newitemcopynumber))
+    itemtemplate = {
+        "ItemID": newitemuuid,
+        "Name": newitemname,
+        "PriceType": "Number",
+        "Price": 0.00,
+        "Taxed": True,
+        "ScreenGroups": [],
+        "StatsGroups": [],
+        "Color": "#ffffff",
+        "PageLink": "none",
+        "ItemLink": "none",
+        "PermissionListType": "Disabled",
+        "PermissionList": []
+    }
+    database.items.insert_one(itemtemplate)
+    Draw(currentpage,True)
+    ItemsMenu()
 def CreateNewButton(slot):
     global currentpage
     row, column = divmod(slot-1,int(config["NetPOS"]["Columns"]))
@@ -495,27 +534,63 @@ currentpagerawvar.set(currentpage)
 style = ttk.Style()
 style.configure("Treeview.Heading", font=('OpenSans', 24,'bold'))
 
+itemtreeviewids = []
 
 def ItemsMenu():
     global settingwidgets
+    global itemtreeviewids
     global buttoneditorwidgets
     for widget in buttoneditorwidgets:
         widget.destroy()
     root.update()
     Clear("Buttons")
-    pagetreeview = ttk.Treeview(root, columns=("Name","Price","Tax","Color"), show='headings', height=10)
-    pagetreeview.column("#0",width=0,stretch=NO)
-    pagetreeview.column("Name",anchor="w", width=200, minwidth=200,stretch=NO)
-    pagetreeview.column("Price", anchor="w", width=120, minwidth=120,stretch=NO)
-    pagetreeview.column("Tax", anchor="w", width=80, minwidth=80,stretch=NO)
-    pagetreeview.column("Color", anchor="w", width=200, minwidth=200,stretch=NO)
-    pagetreeview.heading("#0", text="")
-    pagetreeview.heading("Name", text="Name")
-    pagetreeview.heading("Price", text="Price")
-    pagetreeview.heading("Tax", text="Tax")
-    pagetreeview.heading("Color", text="Color")
-    pagetreeview.place(x=100,y=100,width=601,height=940)
-    settingwidgets.append(pagetreeview)
+    UpdateItemNames()
+    itemtreeviewids = []
+    ttk.Style().configure("Treeview",rowheight=40)
+    itemtreeview = ttk.Treeview(root, columns=("Name","Price","Tax","Color"), show='headings', height=10)
+    itemtreeview.column("#0",width=0,stretch=NO)
+    itemtreeview.column("Name",anchor="n", width=200, minwidth=200,stretch=NO)
+    itemtreeview.column("Price", anchor="n", width=120, minwidth=120,stretch=NO)
+    itemtreeview.column("Tax", anchor="n", width=80, minwidth=80,stretch=NO)
+    itemtreeview.column("Color", anchor="n", width=200, minwidth=200,stretch=NO)
+    itemtreeview.heading("#0", text="")
+    itemtreeview.heading("Name", text="Name")
+    itemtreeview.heading("Price", text="Price")
+    itemtreeview.heading("Tax", text="Tax")
+    itemtreeview.heading("Color", text="Color")
+    itemtreeview.place(x=100,y=100,width=601,height=800)
+    settingwidgets.append(itemtreeview)
+
+    newitembutton = Button(image=blankimage, font=("OpenSans",24), fg="black", text="Create New", bg="#BBFFB4", width=288, height=50,
+                                   command=CreateNewItem,padx=0, pady=0, compound='center',
+                                    justify='center')
+    newitembutton.place(x=250,y=920)
+    settingwidgets.append(newitembutton)
+    root.update()
+    tvscrollbar = Scrollbar(width=config['NetPOS']['ScrollbarThickness'],bg="gray",command=itemtreeview.yview)
+    tvscrollbar.place(x=int(itemtreeview.winfo_x())+int(itemtreeview.winfo_width()), y=itemtreeview.winfo_y(),height=itemtreeview.winfo_height(),width=config['NetPOS']['ScrollbarThickness'])
+    itemtreeview.config(yscrollcommand=tvscrollbar.set)
+    settingwidgets.append(tvscrollbar)
+    for item in itemoptions:
+        itemtreeviewids.append(item["ItemID"])
+        if item["PriceType"] == "Number":
+            itemprice = "${:,.2f}".format(item["Price"])
+        elif item["PriceType"] == "Percentage":
+            itemprice = "{:.0%}".format(item["Price"])
+        else:
+            itemprice = item["Price"]
+        if item["Taxed"] == True:
+            itemtax = "Yes"
+        else:
+            itemtax = "No"
+
+        try:
+            itemcolor = hex_to_name(str(item["Color"]))
+        except:
+            itemcolor = item["Color"]
+
+        itemtreeview.insert('', 'end', text=item["Name"],values=(item["Name"],str(itemprice),str(itemtax),str(itemcolor)))
+    root.update()
 
 previewboxcontainer = []
 previewboxobjects = []
@@ -593,8 +668,8 @@ def CreateNewPage():
         "BackgroundColor": "#87CFEC",
         "ForegroundColor": "#FFD993",
         "Buttons": [],
-        "PermissionListType": "None",
-        "PermissionListUsers": []
+        "PermissionListType": "Disabled",
+        "PermissionList": []
     }
     database.pages.insert_one(pagetemplate)
     Draw(currentpage,True)
@@ -761,6 +836,7 @@ def UsersMenu():
     Clear("Buttons")
 
 pageoptions = []
+itemoptions = []
 
 def UpdatePageNames():
     global pageoptions
@@ -768,6 +844,13 @@ def UpdatePageNames():
     for dbpage in database.pages.find({}):
         pageoptions.append(dbpage["Name"])
     pageoptions.sort()
+
+def UpdateItemNames():
+    global itemoptions
+    itemoptions = []
+    for dbitem in database.items.find({}):
+        itemoptions.append(dbitem)
+    itemoptions.sort(key=lambda x: x['Name'])
 
 def Draw(pagename,editmode=False):
     #Draw/Redraw the screen
