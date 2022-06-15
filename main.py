@@ -1,21 +1,23 @@
+import configparser
+import cProfile
+import os
+import pickle
+import pstats
+import time
 import tkinter
 import tkinter.font
-import time
-import pstats
-import cProfile
-from pymongo import MongoClient
-import configparser
-from tkinter import ttk
-from tkinter import *
-#from tkinter import colorchooser
-from tkcolorpicker import askcolor
-import os
-from random import randint
+from ast import literal_eval
 from datetime import datetime
+from random import randint
+from tkinter import *
+from tkinter import filedialog, messagebox, ttk
+
+from pymongo import MongoClient
+from simplecrypt import decrypt, encrypt
+from tkcolorpicker import askcolor
 from webcolors import hex_to_name
 
-
-from tkcolorpicker import askcolor
+softwareversion = "Beta 1.1"
 
 
 config = configparser.ConfigParser()
@@ -559,6 +561,7 @@ def ItemsMenu():
     itemtreeview.heading("Tax", text="Tax")
     itemtreeview.heading("Color", text="Color")
     itemtreeview.place(x=100,y=100,width=601,height=800)
+    itemtreeview.bind("<<TreeviewSelect>>", ItemsMenuCallback)
     settingwidgets.append(itemtreeview)
 
     newitembutton = Button(image=blankimage, font=("OpenSans",24), fg="black", text="Create New", bg="#BBFFB4", width=288, height=50,
@@ -609,6 +612,10 @@ def PagesMenuCallback(event):
         pagefgcolorcontainer[0].config(bg=pageresult["ForegroundColor"])
         pagebgcolorcontainer[0].config(bg=pageresult["BackgroundColor"])
         namechangevar.set(pagetoedit)
+
+def ItemsMenuCallback(event):
+    print(event)
+    pass
 
 
 
@@ -818,10 +825,148 @@ def PagesMenu(defaultselected=None):
         pageindexer += 1
 def SettingsMenu():
     global buttoneditorwidgets
+    global settingwidgets
     for widget in buttoneditorwidgets:
         widget.destroy()
     root.update()
     Clear("Buttons")
+    downloaddatabutton = Button(root, image=blankimage, width=300, height=50, text="Backup System Data",
+                         fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+                         command=DownloadData)
+    downloaddatabutton.place(x=500,y=500)
+
+    uploaddatabutton = Button(root, image=blankimage, width=300, height=50, text="Restore System Data",
+                         fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+                         command=UploadData)
+    uploaddatabutton.place(x=500,y=700)
+
+    settingwidgets.append(uploaddatabutton)
+    settingwidgets.append(downloaddatabutton)
+
+def DownloadData():
+    global softwareversion
+    destination = filedialog.askdirectory(title="Select Location")
+    pages = []
+    items = []
+    users = []
+    buttons = []
+    reports = []
+    statistics = []
+    settings = []
+    terminalsettings = []
+    scripts = []
+    transactionhistory = []
+    logs = []
+    signature = "NetPOS Database Archive"
+    archivesoftwareversion = softwareversion
+    archivetime = str(datetime.now().strftime("%d/%m/%Y %H:%M:%S"))
+
+    for page in database["pages"].find({}):
+        pages.append(page)
+
+    for item in database["items"].find({}):
+        items.append(item)
+
+    for button in database["buttons"].find({}):
+        buttons.append(button)
+
+    for user in database["users"].find({}):
+        users.append(user)
+
+    for report in database["reports"].find({}):
+        reports.append(report)
+
+    for statistic in database["statistics"].find({}):
+        statistics.append(statistic)
+
+    for setting in database["settings"].find({}):
+        settings.append(setting)
+
+    for terminalsetting in database["terminalsettings"].find({}):
+        terminalsettings.append(terminalsetting)
+
+    for script in database["scripts"].find({}):
+        scripts.append(script)
+
+    for transaction in database["transactionhistory"].find({}):
+        transactionhistory.append(transaction)
+    
+    for log in database["logs"].find({}):
+        logs.append(log)
+    
+
+    archivedictionary = {}
+    archivedictionary["pages"] = pages
+    archivedictionary["items"] = items
+    archivedictionary["buttons"] = buttons
+    archivedictionary["users"] = users
+    archivedictionary["reports"] = reports
+    archivedictionary["statistics"] = statistics
+    archivedictionary["settings"] = settings
+    archivedictionary["terminalsettings"] = terminalsettings
+    archivedictionary["scripts"] = scripts
+    archivedictionary["transactionhistory"] = transactionhistory
+    archivedictionary["signature"] = signature
+    archivedictionary["archivetime"] = archivetime
+    archivedictionary["softwareversion"] = archivesoftwareversion
+    
+    print(archivedictionary)
+
+    archivefile = open(os.path.join(destination, str("NetPOS Archive " + str(datetime.now().strftime("%m-%d-%Y %H-%M-%S")) + ".netarch")), "wb")
+    pickle.dump(archivedictionary, archivefile)
+
+    archivefile.close()
+    messagebox.showinfo(title="NetPOS", message="Data successfully backed up!")
+
+
+def UploadData():
+    source = filedialog.askopenfilename(title="Select File",filetypes=[("NetPOS Data File", "*.netarch")])
+
+    archivedatafile = open(source,"rb")
+
+    try:
+        archivedata = pickle.load(archivedatafile)
+        if archivedata["signature"] == "NetPOS Database Archive":
+            database["pages"].drop()
+            database["buttons"].drop()
+            database["items"].drop()
+            database["users"].drop()
+            database["reports"].drop()
+            database["statistics"].drop()
+            database["settings"].drop()
+            database["terminalsettings"].drop()
+            database["scripts"].drop()
+            database["transactionhistory"].drop()
+            for page in archivedata["pages"]:
+                database["pages"].insert_one(page)
+            for button in archivedata["buttons"]:
+                database["buttons"].insert_one(button)
+            for item in archivedata["items"]:
+                database["items"].insert_one(item)
+            for user in archivedata["users"]:
+                database["users"].insert_one(user)
+            for report in archivedata["reports"]:
+                database["reports"].insert_one(report)
+            for statistic in archivedata["statistics"]:
+                database["statistics"].insert_one(statistic)
+            for setting in archivedata["settings"]:
+                database["settings"].insert_one(setting)
+            for terminalsetting in archivedata["terminalsettings"]:
+                database["terminalsettings"].insert_one(terminalsetting)
+            for script in archivedata["scripts"]:
+                database["scripts"].insert_one(script)
+            for transaction in archivedata["transactionhistory"]:
+                database["transactionhistory"].insert_one(transaction)
+            messagebox.showinfo(title="NetPOS", message="Data recovery successful!")
+        else:
+            messagebox.showerror(title="NetPOS",message="Invalid archive file. Aborting operation.")
+
+    except:
+        messagebox.showerror(title="NetPOS",message="Invalid archive file. Aborting operation.")
+
+
+
+
 def ReportsMenu():
     global buttoneditorwidgets
     for widget in buttoneditorwidgets:
