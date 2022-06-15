@@ -5,7 +5,7 @@ echo "|  \| |/ _ \ __| |_) | | | \___ \ "
 echo "| |\  |  __/ |_|  __/| |_| |___) |"
 echo "|_| \_|\___|\__|_|    \___/|____/ "
 echo ""
-echo "              v1.0 by Nick Tonjum "
+echo "              v1.1 by Nick Tonjum "
 echo ""
 echo ""
 if [ `whoami` != root ]; then
