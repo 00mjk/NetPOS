@@ -1,7 +1,0 @@
--------------------------------------------------------------------------------
-NETPOS Project written by Nick
-Built in Python 3.9 for Ubuntu Server 20.04.3 (KDE)
-
-Required python packages = Tkinter (Python 3 version), pymongo, tkcolorpicker, configparser
-Required ubuntu packages = onboard
--------------------------------------------------------------------------------
