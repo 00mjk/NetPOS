@@ -13,7 +13,6 @@ from tkinter import *
 from tkinter import filedialog, messagebox, ttk
 
 from pymongo import MongoClient
-from simplecrypt import decrypt, encrypt
 from tkcolorpicker import askcolor
 from webcolors import hex_to_name
 
