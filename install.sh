@@ -17,8 +17,13 @@ if [ `whoami` != root ]; then
 fi
 echo "Installing..."
 echo ""
-apt-get -qq update
-apt-get -qq --yes install onboard
+apt-get update
+apt-get --yes install onboard
+apt-get --yes install python3-tk
+apt-get --yes install python3-pil.imagetk
+pip3 install pymongo
+pip3 install tkcolorpicker
+pip3 install webcolors 
 echo ""
 echo "Install Complete!"
 echo ""
