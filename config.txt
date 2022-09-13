@@ -2,8 +2,8 @@
 
 IP = api.ntmedia.net
 Port = 27017
-Username = admin
-Password = nick9924
+Username = netpos
+Password = nobody
 
 [NetPOS]
 
