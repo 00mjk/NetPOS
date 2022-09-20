@@ -6,6 +6,7 @@ Written in Python 3.9
 
 
 Current Progress: ~40% complete
+
 Current Status: `not functional`
 
 Notes:
