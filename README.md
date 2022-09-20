@@ -5,8 +5,8 @@ Fully customizable point of sale system for any retail business.
 Written in Python 3.9
 
 
-Current progress: ~40% complete
-
+Current Progress: ~40% complete
+Current Status: `not functional`
 
 Notes:
   - Developed and working on Ubuntu Server with both KDE and GNOME Desktop Environments.
