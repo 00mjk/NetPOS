@@ -381,9 +381,9 @@ def SaveButton(buttonID):
 def ColorSelectorHandler(colortype,pageID=None):
     global affectedbuttoncontainer, settingwidgets, previewboxcontainer, pagebgcolorcontainer, pagefgcolorcontainer, pagetoedit
     returnedcolor = askcolor()
-    #1print(returnedcolor)
+    print(returnedcolor)
     pageID = pagetoedit
-    if not returnedcolor == None:
+    if not returnedcolor[1] == None:
         if colortype == "button":
             affectedbuttoncontainer[0].config(bg=returnedcolor[1])
             newbutton_buttoncolor.set(returnedcolor[1])
@@ -834,13 +834,27 @@ def SettingsMenu():
                          command=DownloadData)
     downloaddatabutton.place(x=500,y=500)
 
+    scriptsbutton = Button(root, image=blankimage, width=300, height=50, text="Scripts",
+                         fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+                         command=ScriptMenu)
+    scriptsbutton.place(x=500,y=700)
+
     uploaddatabutton = Button(root, image=blankimage, width=300, height=50, text="Restore System Data",
                          fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
                          command=UploadData)
-    uploaddatabutton.place(x=500,y=700)
+    uploaddatabutton.place(x=500,y=600)
 
     settingwidgets.append(uploaddatabutton)
+    settingwidgets.append(scriptsbutton)
     settingwidgets.append(downloaddatabutton)
+
+def ScriptMenu():
+    global buttoneditorwidgets
+    global settingwidgets
+    for widget in buttoneditorwidgets:
+        widget.destroy()
+    root.update()
+    Clear("Buttons")
 
 def DownloadData():
     global softwareversion
@@ -1077,7 +1091,12 @@ def Draw(pagename,editmode=False):
             copiedbuttonid += int(button["ButtonID"])
             buttoncommands[copiedbuttonid] = button["Functions"]
             print("Loading button #" + str(copiedbuttonid))
-            buttonwidget = Button(root, image=blankimage, width=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=str(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), padx=0, pady=0, compound='center', justify='center', wraplength=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), text=button["Text"], fg=button["FG"], bg=button["BG"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
+            try:
+                print('FG = ' + button["FG"])
+                print("BG = " + button["BG"])
+                buttonwidget = Button(root, image=blankimage, width=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=str(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), padx=0, pady=0, compound='center', justify='center', wraplength=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), text=button["Text"], fg=button["FG"], bg=button["BG"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
+            except:
+                buttonwidget = Button(root, image=blankimage, width=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=str(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), padx=0, pady=0, compound='center', justify='center', wraplength=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), text=button["Text"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
             print("calculating font size")
             if not str(button["FontSize"]) == str(config['NetPOS']['DefaultFontSize']):
                 buttonsize = int(config['NetPOS']['DefaultFontSize'])
