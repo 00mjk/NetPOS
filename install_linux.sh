@@ -22,6 +22,7 @@ apt-get --yes install onboard
 apt-get --yes install python3-tk
 apt-get --yes install python3-pil.imagetk
 pip3 install pymongo
+pip3 install customtkinter
 pip3 install tkcolorpicker
 pip3 install webcolors 
 echo ""
