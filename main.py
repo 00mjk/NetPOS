@@ -5,6 +5,7 @@ import pickle
 import pstats
 import time
 import tkinter
+import customtkinter
 import tkinter.font
 from ast import literal_eval
 from datetime import datetime
@@ -57,8 +58,10 @@ if not 'users' in databaselist:
 
 
 
+customtkinter.set_appearance_mode("light")  # Modes: system (default), light, dark
+customtkinter.set_default_color_theme("blue")  # Themes: blue (default), dark-blue, green
 
-root = Tk()
+root = customtkinter.CTk()
 currentpage = config['NetPOS']['DefaultPage']
 currentcheck = 0
 currentuser = 0
@@ -176,70 +179,70 @@ def EditButton(buttonID,emtype):
 
         buttonobject.config(text="",textvariable=newbutton_textvar)
 
-        removebuttonbutton = Button(root, image=blankimage, width=200, height=80, font=("OpenSans", 20), fg="black", text="Delete Button", bg="#FF6262", padx=0, pady=0, compound='center', justify='center', command=lambda btn=buttonID: DeleteButton(btn))
+        removebuttonbutton = customtkinter.CTkButton(root, image=blankimage, width=200, height=80, font=("OpenSans", 20), text_color="black", text="Delete Button", fg_color="#FF6262", command=lambda btn=buttonID: DeleteButton(btn))
         removebuttonbutton.place(x=int(config['NetPOS']['ItemListRoot_X'])+165,y=int(config['NetPOS']['ItemListRoot_Y'])+700)
-        savebuttonbutton = Button(root, image=blankimage, width=200, height=80, font=("OpenSans", 20), fg="black",
-                                    text="Save Changes", bg="#80FF62", padx=0, pady=0, compound='center',
-                                    justify='center', command=lambda btn=buttonID: SaveButton(btn))
+        savebuttonbutton = customtkinter.CTkButton(root, image=blankimage, width=200, height=80, font=("OpenSans", 20), text_color="black",
+                                    text="Save Changes", fg_color="#80FF62",
+                                    command=lambda btn=buttonID: SaveButton(btn))
         savebuttonbutton.place(x=int(config['NetPOS']['ItemListRoot_X']) + 165,
                                  y=int(config['NetPOS']['ItemListRoot_Y']) + 10)
-        buttontextlabel = Label(root,text="Text:",font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])),fg="black",bg=pagebgcolor)
+        buttontextlabel = customtkinter.CTkLabel(root,text="Text:",font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])),text_color="black",fg_color=pagebgcolor)
         buttontextlabel.place(x=int(config['NetPOS']['ItemListRoot_X']),y=int(config['NetPOS']['ItemListRoot_Y'])+150)
-        textcolorlabel = Label(root, text="Text Color:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), fg="black",
-                                bg=pagebgcolor)
+        textcolorlabel = customtkinter.CTkLabel(root, text="Text Color:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), text_color="black",
+                                fg_color=pagebgcolor)
         textcolorlabel.place(x=int(config['NetPOS']['ItemListRoot_X']),
                               y=int(config['NetPOS']['ItemListRoot_Y']) + 250)
 
-        fontsizelabel = Label(root, text="Text Size:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), fg="black",
-                                bg=pagebgcolor)
+        fontsizelabel = customtkinter.CTkLabel(root, text="Text Size:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), text_color="black",
+                                fg_color=pagebgcolor)
         fontsizelabel.place(x=int(config['NetPOS']['ItemListRoot_X']),
                               y=int(config['NetPOS']['ItemListRoot_Y']) + 200)
-        buttontypelabel = Label(root, text="Button Size:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), fg="black",
-                              bg=pagebgcolor)
+        buttontypelabel = customtkinter.CTkLabel(root, text="Button Size:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), text_color="black",
+                              fg_color=pagebgcolor)
         buttontypelabel.place(x=int(config['NetPOS']['ItemListRoot_X']),
                             y=int(config['NetPOS']['ItemListRoot_Y']) + 300)
-        buttoncolorlabel = Label(root, text="Button Color:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), fg="black",
-                                bg=pagebgcolor)
+        buttoncolorlabel = customtkinter.CTkLabel(root, text="Button Color:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), text_color="black",
+                                fg_color=pagebgcolor)
         buttoncolorlabel.place(x=int(config['NetPOS']['ItemListRoot_X']),
                               y=int(config['NetPOS']['ItemListRoot_Y']) + 350)
-        itemlabel = Label(root, text="Linked Item:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), fg="black",
-                                 bg=pagebgcolor)
+        itemlabel = customtkinter.CTkLabel(root, text="Linked Item:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), text_color="black",
+                                 fg_color=pagebgcolor)
         itemlabel.place(x=int(config['NetPOS']['ItemListRoot_X']),
                                y=int(config['NetPOS']['ItemListRoot_Y']) + 400)
-        pagelabel = Label(root, text="Linked Page:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), fg="black",
-                          bg=pagebgcolor)
+        pagelabel = customtkinter.CTkLabel(root, text="Linked Page:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), text_color="black",
+                          fg_color=pagebgcolor)
         pagelabel.place(x=int(config['NetPOS']['ItemListRoot_X']),
                         y=int(config['NetPOS']['ItemListRoot_Y']) + 450)
-        scriptlabel = Label(root, text="Linked Script:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), fg="black",
-                          bg=pagebgcolor)
+        scriptlabel = customtkinter.CTkLabel(root, text="Linked Script:", font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), text_color="black",
+                          fg_color=pagebgcolor)
         scriptlabel.place(x=int(config['NetPOS']['ItemListRoot_X']),
                         y=int(config['NetPOS']['ItemListRoot_Y']) + 500)
 
-        buttontexttextbox = Entry(textvariable=newbutton_textvar,width=10,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
+        buttontexttextbox = customtkinter.CTkEntry(textvariable=newbutton_textvar,width=10,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
         buttontexttextbox.place(x=int(config['NetPOS']['ItemListRoot_X'])+300,y=int(config['NetPOS']['ItemListRoot_Y'])+150)
 
-        textsizedropdownbox = OptionMenu(root, newbutton_textsizevar, *textsizeoptions, command=lambda trash=None: ButtonPreviewTextResize(trash))
+        textsizedropdownbox = customtkinter.CTkOptionMenu(root, newbutton_textsizevar, *textsizeoptions, command=lambda trash=None: ButtonPreviewTextResize(trash))
         textsizedropdownbox.config(font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
         textsizedropdownbox.place(x=int(config['NetPOS']['ItemListRoot_X'])+300,y=int(config['NetPOS']['ItemListRoot_Y'])+200)
 
-        textcolorselector = Button(image=blankimage,width=100,height=35,bg=newbutton_textcolor.get(),command=lambda btnID=buttonID, ctype="text": ColorSelectorHandler(ctype,btnID))
+        textcolorselector = customtkinter.CTkButton(image=blankimage,width=100,height=35,fg_color=newbutton_textcolor.get(),command=lambda btnID=buttonID, ctype="text": ColorSelectorHandler(ctype,btnID))
         textcolorselector.place(x=int(config['NetPOS']['ItemListRoot_X'])+300,y=int(config['NetPOS']['ItemListRoot_Y'])+250)
 
-        buttonwidthdropdownbox = OptionMenu(root, newbutton_buttonwidth, *buttonwidthoptions, command=lambda trash=None: ButtonPreviewResize(trash))
+        buttonwidthdropdownbox = customtkinter.CTkOptionMenu(root, newbutton_buttonwidth, *buttonwidthoptions, command=lambda trash=None: ButtonPreviewResize(trash))
         buttonwidthdropdownbox.config(font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
         buttonwidthdropdownbox.place(x=int(config['NetPOS']['ItemListRoot_X']) + 300,
                                   y=int(config['NetPOS']['ItemListRoot_Y']) + 300)
 
-        buttonheightdropdownbox = OptionMenu(root, newbutton_buttonheight, *buttonheightoptions, command=lambda trash=None: ButtonPreviewResize(trash))
+        buttonheightdropdownbox = customtkinter.CTkOptionMenu(root, newbutton_buttonheight, *buttonheightoptions, command=lambda trash=None: ButtonPreviewResize(trash))
         buttonheightdropdownbox.config(font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
         buttonheightdropdownbox.place(x=int(config['NetPOS']['ItemListRoot_X']) + 410,
                                      y=int(config['NetPOS']['ItemListRoot_Y']) + 300)
 
-        bylabel = Label(fg="black",bg=str(pagebgcolor),text="by",font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
+        bylabel = customtkinter.CTkLabel(text_color="black",fg_color=str(pagebgcolor),text="by",font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
         bylabel.place(x=int(config['NetPOS']['ItemListRoot_X']) + 365,
                                      y=int(config['NetPOS']['ItemListRoot_Y']) + 310)
 
-        buttoncolorselector = Button(image=blankimage, bg=newbutton_buttoncolor.get(), width=100, height=35,command=lambda btnID=buttonID, ctype="button": ColorSelectorHandler(ctype,btnID))
+        buttoncolorselector = customtkinter.CTkButton(image=blankimage, fg_color=newbutton_buttoncolor.get(), width=100, height=35,command=lambda btnID=buttonID, ctype="button": ColorSelectorHandler(ctype,btnID))
         buttoncolorselector.place(x=int(config['NetPOS']['ItemListRoot_X']) + 300,
                                 y=int(config['NetPOS']['ItemListRoot_Y']) + 350)
 
@@ -247,7 +250,7 @@ def EditButton(buttonID,emtype):
         for item in itemoptions:
             buttonitemoptions.append(item["Name"])
 
-        itemlinkdropdownbox = OptionMenu(root, newbutton_linkeditem, *buttonitemoptions)
+        itemlinkdropdownbox = customtkinter.CTkOptionMenu(root, newbutton_linkeditem, *buttonitemoptions)
         itemlinkdropdownbox.config(font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
         itemlinkdropdownbox.place(x=int(config['NetPOS']['ItemListRoot_X']) + 300,
                                   y=int(config['NetPOS']['ItemListRoot_Y']) + 400)
@@ -255,12 +258,12 @@ def EditButton(buttonID,emtype):
         buttonpageoptions = ["None"]
         for page in pageoptions:
             buttonpageoptions.append(page)
-        pagelinkdropdownbox = OptionMenu(root, newbutton_linkedpage, *buttonpageoptions)
+        pagelinkdropdownbox = customtkinter.CTkOptionMenu(root, newbutton_linkedpage, *buttonpageoptions)
         pagelinkdropdownbox.config(font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
         pagelinkdropdownbox.place(x=int(config['NetPOS']['ItemListRoot_X']) + 300,
                                   y=int(config['NetPOS']['ItemListRoot_Y']) + 450)
 
-        scriptlinkdropdownbox = OptionMenu(root, newbutton_linkedscript, *buttonscriptoptions)
+        scriptlinkdropdownbox = customtkinter.CTkOptionMenu(root, newbutton_linkedscript, *buttonscriptoptions)
         scriptlinkdropdownbox.config(font=("OpenSans",int(config['NetPOS']['DropdownBoxFontSize'])))
         scriptlinkdropdownbox.place(x=int(config['NetPOS']['ItemListRoot_X']) + 300,
                                   y=int(config['NetPOS']['ItemListRoot_Y']) + 500)
@@ -320,7 +323,7 @@ def EditButton(buttonID,emtype):
                             width=int(config['NetPOS']['ButtonWidth']) - 10,
                             height=int(config['NetPOS']['ButtonHeight']) - 10)
         #1print("Showing edit option for button in slot " + str(buttonID))
-        createbuttonbutton = Button(root, image=blankimage, width=200, height=80, font=("OpenSans", 20), fg="black", text="Create Button", bg="#80FF62", padx=0, pady=0, compound='center', justify='center', command=lambda slot=buttonID: CreateNewButton(slot))
+        createbuttonbutton = customtkinter.CTkButton(root, image=blankimage, width=200, height=80, font=("OpenSans", 20), text_color="black", text="Create Button", fg_color="#80FF62", command=lambda slot=buttonID: CreateNewButton(slot))
         createbuttonbutton.place(x=int(config['NetPOS']['ItemListRoot_X'])+165,y=int(config['NetPOS']['ItemListRoot_Y'])+10)
         miscwidgets.append(createbuttonbutton)
         buttoneditorwidgets.append(createbuttonbutton)
@@ -385,23 +388,23 @@ def ColorSelectorHandler(colortype,pageID=None):
     pageID = pagetoedit
     if not returnedcolor[1] == None:
         if colortype == "button":
-            affectedbuttoncontainer[0].config(bg=returnedcolor[1])
+            affectedbuttoncontainer[0].config(fg_color=returnedcolor[1])
             newbutton_buttoncolor.set(returnedcolor[1])
-            settingwidgets[1].config(bg=returnedcolor[1])
+            settingwidgets[1].config(fg_color=returnedcolor[1])
         elif colortype == "text":
-            affectedbuttoncontainer[0].config(fg=returnedcolor[1])
+            affectedbuttoncontainer[0].config(text_color=returnedcolor[1])
             newbutton_textcolor.set(returnedcolor[1])
-            settingwidgets[0].config(bg=returnedcolor[1])
+            settingwidgets[0].config(fg_color=returnedcolor[1])
         elif colortype == "pagebg":
             if not pageID == None:
-                previewboxcontainer[0].config(bg=returnedcolor[1])
-                pagebgcolorcontainer[0].config(bg=returnedcolor[1])
+                previewboxcontainer[0].config(fg_color=returnedcolor[1])
+                pagebgcolorcontainer[0].config(fg_color=returnedcolor[1])
                 database.pages.update_one({'Name': pagetoedit.lower()}, {'$set': {"BackgroundColor": returnedcolor[1]}})
                 if currentpage.lower() == pagetoedit.lower():
-                    root.config(bg=returnedcolor[1])
+                    root.config(fg_color=returnedcolor[1])
         elif colortype == "pagefg":
             if not pageID == None:
-                pagefgcolorcontainer[0].config(bg=returnedcolor[1])
+                pagefgcolorcontainer[0].config(fg_color=returnedcolor[1])
                 database.pages.update_one({'Name': pagetoedit.lower()}, {'$set': {"ForegroundColor": returnedcolor[1]}})
         else:
             pass
@@ -515,9 +518,15 @@ def Clear(only=None):
     #Clear all widgets and buttons off the screen
     if not only == "Buttons":
         for widget in miscwidgets:
-            widget.destroy()
+            try:
+                widget.destroy()
+            except:
+                widget.delete()
         for widget in settingwidgets:
-            widget.destroy()
+            try:
+                widget.destroy()
+            except:
+                widget.delete()
     if not only == "Widgets":
         for button in buttonwidgets:
             button.place_forget()
@@ -563,13 +572,13 @@ def ItemsMenu():
     itemtreeview.bind("<<TreeviewSelect>>", ItemsMenuCallback)
     settingwidgets.append(itemtreeview)
 
-    newitembutton = Button(image=blankimage, font=("OpenSans",24), fg="black", text="Create New", bg="#BBFFB4", width=288, height=50,
-                                   command=CreateNewItem,padx=0, pady=0, compound='center',
+    newitembutton = customtkinter.CTkButton(image=blankimage, font=("OpenSans",24), text_color="black", text="Create New", fg_color="#BBFFB4", width=288, height=50,
+                                   command=CreateNewItem,padx=0, pady=0,
                                     justify='center')
     newitembutton.place(x=250,y=920)
     settingwidgets.append(newitembutton)
     root.update()
-    tvscrollbar = Scrollbar(width=config['NetPOS']['ScrollbarThickness'],bg="gray",command=itemtreeview.yview)
+    tvscrollbar = customtkinter.CTkScrollbar(width=config['NetPOS']['ScrollbarThickness'],fg_color="gray",command=itemtreeview.yview)
     tvscrollbar.place(x=int(itemtreeview.winfo_x())+int(itemtreeview.winfo_width()), y=itemtreeview.winfo_y(),height=itemtreeview.winfo_height(),width=config['NetPOS']['ScrollbarThickness'])
     itemtreeview.config(yscrollcommand=tvscrollbar.set)
     settingwidgets.append(tvscrollbar)
@@ -607,9 +616,9 @@ def PagesMenuCallback(event):
 
     if not pagetoedit == None:
         pageresult = database.pages.find_one({"Name": pagetoedit})
-        previewboxcontainer[0].config(bg=pageresult["BackgroundColor"])
-        pagefgcolorcontainer[0].config(bg=pageresult["ForegroundColor"])
-        pagebgcolorcontainer[0].config(bg=pageresult["BackgroundColor"])
+        previewboxcontainer[0].config(fg_color=pageresult["BackgroundColor"])
+        pagefgcolorcontainer[0].config(fg_color=pageresult["ForegroundColor"])
+        pagebgcolorcontainer[0].config(fg_color=pageresult["BackgroundColor"])
         namechangevar.set(pagetoedit)
 
 def ItemsMenuCallback(event):
@@ -708,10 +717,10 @@ def PagesMenu(defaultselected=None):
         widget.destroy()
     root.update()
     Clear("Buttons")
-    pagescrollbar = Scrollbar(root)
-    pagelist = Listbox(root,selectmode="single",justify=CENTER,width=16,height=20,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])),bg="white",fg="black")
+    pagescrollbar = customtkinter.CTkScrollbar(root)
+    pagelist = Listbox(root,selectmode="single",justify=CENTER,width=16,height=20,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])),fg_color="white",text_color="black")
     pagelist.config(yscrollcommand=pagescrollbar.set)
-    pagescrollbar.config(command=pagelist.yview,width=50,bg="gray")
+    pagescrollbar.config(command=pagelist.yview,width=50,fg_color="gray")
     pagelist.place(x=500,y=200)
     pagelistcontainer = []
     pagelistcontainer.append(pagelist)
@@ -720,45 +729,45 @@ def PagesMenu(defaultselected=None):
     for page in pageoptions:
         pagelist.insert(END,str(page))
     pagelist.bind("<<ListboxSelect>>", PagesMenuCallback)
-    previewbox = Frame(width=700,height=394,highlightthickness=2,highlightbackground="black",bg=pagebgcolor)
+    previewbox = Frame(width=700,height=394,highlightthickness=2,highlightbackground="black",fg_color=pagebgcolor)
     previewbox.place(x=800,y=200)
-    previewtext = Label(text="Preview",font=("OpenSans",24))
+    previewtext = customtkinter.CTkLabel(text="Preview",font=("OpenSans",24))
     previewtext.place(x=800,y=200)
     pagebgcolorcontainer = []
     pagefgcolorcontainer = []
-    backgroundcolortext = Label(text="Background Color:",fg="black",bg=pagebgcolor,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
+    backgroundcolortext = customtkinter.CTkLabel(text="Background Color:",text_color="black",fg_color=pagebgcolor,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
     backgroundcolortext.place(x=800,y=650)
-    backgroundcolorbutton = Button(image=blankimage, bg="white", width=100, height=35,command=lambda ID=pagetoedit, ctype="pagebg": ColorSelectorHandler(ctype,ID))
+    backgroundcolorbutton = customtkinter.CTkButton(image=blankimage, fg_color="white", width=100, height=35,command=lambda ID=pagetoedit, ctype="pagebg": ColorSelectorHandler(ctype,ID))
     backgroundcolorbutton.place(x=1070,y=650)
     pagebgcolorcontainer.append(backgroundcolorbutton)
 
-    foregroundcolorbutton = Button(image=blankimage, bg="white", width=100, height=35,
+    foregroundcolorbutton = customtkinter.CTkButton(image=blankimage, fg_color="white", width=100, height=35,
                                    command=lambda ID=pagetoedit, ctype="pagefg": ColorSelectorHandler(ctype, ID))
     foregroundcolorbutton.place(x=1070, y=720)
     pagefgcolorcontainer.append(foregroundcolorbutton)
 
-    foregroundcolortext = Label(text="Foreground Color:", fg="black", bg=pagebgcolor, font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
+    foregroundcolortext = customtkinter.CTkLabel(text="Foreground Color:", text_color="black", fg_color=pagebgcolor, font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
     foregroundcolortext.place(x=805, y=720)
 
-    pagenametext = Label(text="Page Name:", fg="black", bg=pagebgcolor, font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
+    pagenametext = customtkinter.CTkLabel(text="Page Name:", text_color="black", fg_color=pagebgcolor, font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
     pagenametext.place(x=883,y=790)
 
-    pagenamebox = Entry(textvariable=namechangevar,width=10,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
+    pagenamebox = customtkinter.CTkEntry(textvariable=namechangevar,width=10,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])))
     pagenamebox.place(x=1070,y=790)
 
-    pagenameupdatebutton = Button(image=blankimage, font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), fg="black", text="Change", bg="#BBFFB4", width=100, height=35,
-                                   command=ChangePageName,padx=0, pady=0, compound='center',
+    pagenameupdatebutton = customtkinter.CTkButton(image=blankimage, font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])), text_color="black", text="Change", fg_color="#BBFFB4", width=100, height=35,
+                                   command=ChangePageName,padx=0, pady=0,
                                     justify='center')
     pagenameupdatebutton.place(x=1250,y=791)
 
-    createnewpage = Button(image=blankimage, font=("OpenSans",24), fg="black", text="Create New", bg="#BBFFB4", width=288, height=50,
-                                   command=CreateNewPage,padx=0, pady=0, compound='center',
+    createnewpage = customtkinter.CTkButton(image=blankimage, font=("OpenSans",24), text_color="black", text="Create New", fg_color="#BBFFB4", width=288, height=50,
+                                   command=CreateNewPage,padx=0, pady=0,
                                     justify='center')
     createnewpage.place(x=450,y=980)
 
-    deletebutton = Button(image=blankimage, font=("OpenSans", 24), fg="black", text="Delete", bg="#FF9191",
+    deletebutton = customtkinter.CTkButton(image=blankimage, font=("OpenSans", 24), text_color="black", text="Delete", fg_color="#FF9191",
                            width=288, height=50,
-                           command=DeletePage, padx=0, pady=0, compound='center',
+                           command=DeletePage,
                            justify='center')
     deletebutton.place(x=1070, y=860)
 
@@ -788,9 +797,9 @@ def PagesMenu(defaultselected=None):
         pagetoedit = None
     if not pagetoedit == None:
         pageresult = database.pages.find_one({"Name": pagetoedit})
-        previewboxcontainer[0].config(bg=pageresult["BackgroundColor"])
-        pagefgcolorcontainer[0].config(bg=pageresult["ForegroundColor"])
-        pagebgcolorcontainer[0].config(bg=pageresult["BackgroundColor"])
+        previewboxcontainer[0].config(fg_color=pageresult["BackgroundColor"])
+        pagefgcolorcontainer[0].config(fg_color=pageresult["ForegroundColor"])
+        pagebgcolorcontainer[0].config(fg_color=pageresult["BackgroundColor"])
     for pageitem in (pagelist.get(0,END)):
 
         if not defaultselected == None:
@@ -804,9 +813,9 @@ def PagesMenu(defaultselected=None):
                     pagetoedit = None
                 if not pagetoedit == None:
                     pageresult = database.pages.find_one({"Name": pagetoedit})
-                    previewboxcontainer[0].config(bg=pageresult["BackgroundColor"])
-                    pagefgcolorcontainer[0].config(bg=pageresult["ForegroundColor"])
-                    pagebgcolorcontainer[0].config(bg=pageresult["BackgroundColor"])
+                    previewboxcontainer[0].config(fg_color=pageresult["BackgroundColor"])
+                    pagefgcolorcontainer[0].config(fg_color=pageresult["ForegroundColor"])
+                    pagebgcolorcontainer[0].config(fg_color=pageresult["BackgroundColor"])
         else:
             if pageitem == currentpage:
                 pagelist.select_clear(0,END)
@@ -818,9 +827,9 @@ def PagesMenu(defaultselected=None):
                     pagetoedit = None
                 if not pagetoedit == None:
                     pageresult = database.pages.find_one({"Name": pagetoedit})
-                    previewboxcontainer[0].config(bg=pageresult["BackgroundColor"])
-                    pagefgcolorcontainer[0].config(bg=pageresult["ForegroundColor"])
-                    pagebgcolorcontainer[0].config(bg=pageresult["BackgroundColor"])
+                    previewboxcontainer[0].config(fg_color=pageresult["BackgroundColor"])
+                    pagefgcolorcontainer[0].config(fg_color=pageresult["ForegroundColor"])
+                    pagebgcolorcontainer[0].config(fg_color=pageresult["BackgroundColor"])
         pageindexer += 1
 def SettingsMenu():
     global buttoneditorwidgets
@@ -829,18 +838,18 @@ def SettingsMenu():
         widget.destroy()
     root.update()
     Clear("Buttons")
-    downloaddatabutton = Button(root, image=blankimage, width=300, height=50, text="Backup System Data",
-                         fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+    downloaddatabutton = customtkinter.CTkButton(root, image=blankimage, width=300, height=50, text="Backup System Data",
+                         text_color="black", fg_color="#9c9c9c",
                          command=DownloadData)
     downloaddatabutton.place(x=500,y=500)
 
-    scriptsbutton = Button(root, image=blankimage, width=300, height=50, text="Scripts",
-                         fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+    scriptsbutton = customtkinter.CTkButton(root, image=blankimage, width=300, height=50, text="Scripts",
+                         text_color="black", fg_color="#9c9c9c",
                          command=ScriptMenu)
     scriptsbutton.place(x=500,y=700)
 
-    uploaddatabutton = Button(root, image=blankimage, width=300, height=50, text="Restore System Data",
-                         fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+    uploaddatabutton = customtkinter.CTkButton(root, image=blankimage, width=300, height=50, text="Restore System Data",
+                         text_color="black", fg_color="#9c9c9c",
                          command=UploadData)
     uploaddatabutton.place(x=500,y=600)
 
@@ -1019,45 +1028,45 @@ def Draw(pagename,editmode=False):
     pagebuttons = pageresult["Buttons"]
     pagefgcolor = pageresult["ForegroundColor"]
     pagebgcolor = pageresult["BackgroundColor"]
-    root.config(bg=pagebgcolor)
-    editmodebutton = Button(root, image=settingsicon, width=50, height=50, text="", fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center', command=ToggleEditMode)
+    root.configure(fg_color=pagebgcolor)
+    editmodebutton = customtkinter.CTkButton(root, image=settingsicon, width=50, height=50, text="", text_color="black", fg_color="#9c9c9c", command=ToggleEditMode)
     if editmode:
-        editmodebutton.config(image=blankimage,text="✓")
-        keyboardbutton = Button(root, image=keyboardicon, width=50, height=50, text="",
-                                fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+        editmodebutton.configure(image=blankimage,text="✓")
+        keyboardbutton = customtkinter.CTkButton(root, image=keyboardicon, width=50, height=50, text="",
+                                text_color="black", fg_color="#9c9c9c",
                                 command=OpenKeyboard)
         keyboardbutton.place(x=1730, y=20)
 
-        itemsbutton = Button(root, image=blankimage, width=150, height=50, text="Items",
-                                fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+        itemsbutton = customtkinter.CTkButton(root, image=blankimage, width=150, height=50, text="Items",
+                                text_color="black", fg_color="#9c9c9c",
                                 command=ItemsMenu)
         itemsbutton.place(x=700, y=20)
 
-        pagesbutton = Button(root, image=blankimage, width=150, height=50, text="Pages",
-                                fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+        pagesbutton = customtkinter.CTkButton(root, image=blankimage, width=150, height=50, text="Pages",
+                                text_color="black", fg_color="#9c9c9c",
                                 command=PagesMenu)
         pagesbutton.place(x=500, y=20)
 
-        reportsbutton = Button(root, image=blankimage, width=150, height=50, text="Reports",
-                                fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+        reportsbutton = customtkinter.CTkButton(root, image=blankimage, width=150, height=50, text="Reports",
+                                text_color="black", fg_color="#9c9c9c",
                                 command=ReportsMenu)
         reportsbutton.place(x=1100, y=20)
 
-        settingsbutton = Button(root, image=blankimage, width=150, height=50, text="Settings",
-                             fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+        settingsbutton = customtkinter.CTkButton(root, image=blankimage, width=150, height=50, text="Settings",
+                             text_color="black", fg_color="#9c9c9c",
                              command=SettingsMenu)
         settingsbutton.place(x=1300, y=20)
 
-        usersbutton = Button(root, image=blankimage, width=150, height=50, text="Users",
-                                fg="black", bg="#9c9c9c", padx=0, pady=0, compound='center', justify='center',
+        usersbutton = customtkinter.CTkButton(root, image=blankimage, width=150, height=50, text="Users",
+                                text_color="black", fg_color="#9c9c9c",
                                 command=UsersMenu)
         usersbutton.place(x=900, y=20)
 
 
-        pagetext = Label(text="Page: ",fg="black",bg=pagebgcolor,font=("OpenSans",24))
+        pagetext = customtkinter.CTkLabel(master=root,text="Page: ",text_color="black",fg_color=pagebgcolor,font=("OpenSans",24))
         pagetext.place(x=65,y=25)
         UpdatePageNames()
-        pagedropdown = OptionMenu(root, currentpagerawvar, *pageoptions, command=lambda trash=None: ChangePage(trash))
+        pagedropdown = customtkinter.CTkOptionMenu(master=root, variable=currentpagerawvar, values=pageoptions, command=lambda trash=None: ChangePage(trash))
         pagedropdown.place(x=150,y=20)
         miscwidgets.append(pagedropdown)
         miscwidgets.append(pagetext)
@@ -1094,9 +1103,10 @@ def Draw(pagename,editmode=False):
             try:
                 print('FG = ' + button["FG"])
                 print("BG = " + button["BG"])
-                buttonwidget = Button(root, image=blankimage, width=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=str(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), padx=0, pady=0, compound='center', justify='center', wraplength=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), text=button["Text"], fg=button["FG"], bg=button["BG"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
+                buttonwidget = customtkinter.CTkButton(master=root, width=int(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=int(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), border_spacing=0, text=str(button["Text"]), text_color=button["FG"], fg_color=button["BG"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
+                #buttonwidget = customtkinter.CTkButton(master=root,text="test", width=int(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=int(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))))
             except:
-                buttonwidget = Button(root, image=blankimage, width=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=str(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), padx=0, pady=0, compound='center', justify='center', wraplength=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), text=button["Text"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
+                buttonwidget = customtkinter.CTkButton(master=root, width=int(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=int(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), text=button["Text"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
             print("calculating font size")
             if not str(button["FontSize"]) == str(config['NetPOS']['DefaultFontSize']):
                 buttonsize = int(config['NetPOS']['DefaultFontSize'])
@@ -1125,7 +1135,7 @@ def Draw(pagename,editmode=False):
             else:
                 pass
             print("done calculating font size")
-            #buttonwidget = Button(root, image=blankimage, width=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=str(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), padx=0, pady=0, compound='center', justify='center', wraplength=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), text=button["Text"], fg=button["FG"], bg=button["BG"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
+            #buttonwidget = customtkinter.CTkButton(root, image=blankimage, width=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), height=str(int(config['NetPOS']['ButtonHeight']) + ((int(button["Height"])-1) * (int(config['NetPOS']['HorizontalGap'])+int(config['NetPOS']['ButtonHeight'])))), wraplength=str(int(config['NetPOS']['ButtonWidth']) + ((int(button["Width"])-1) * (int(config['NetPOS']['VerticalGap'])+int(config['NetPOS']['ButtonWidth'])))), text=button["Text"], text_color=button["FG"], fg_color=button["BG"], command=lambda bid=copiedbuttonid,em=editmode,emtype="Button" : POSFunction(bid,em,emtype))
             buttondictionary[str(copiedbuttonid)] = buttonwidget
         else:
             pass
@@ -1147,7 +1157,7 @@ def Draw(pagename,editmode=False):
                 root.update_idletasks()
                 emb+=1
                 if not [c, r] in occupiedcoords:
-                    buttonwidget = Button(root, image=blankimage, width=config['NetPOS']['ButtonWidth'],height=config['NetPOS']['ButtonHeight'], text="",fg=config["NetPOS"]["ForegroundColor"],bg=pagebgcolor,command=lambda bid=emb,em=editmode,emtype="Slot" : POSFunction(bid,em,emtype))
+                    buttonwidget = customtkinter.CTkButton(root, image=blankimage, width=int(config['NetPOS']['ButtonWidth']),height=int(config['NetPOS']['ButtonHeight']), text="",text_color=config["NetPOS"]["ForegroundColor"],fg_color=pagebgcolor,command=lambda bid=emb,em=editmode,emtype="Slot" : POSFunction(bid,em,emtype))
                     buttondictionary[str(emb)] = buttonwidget
                     occupiedcoords.append([c, r])
                     buttonwidget.place(x=int(config["NetPOS"]["ButtonListRoot_X"]) + (
@@ -1164,20 +1174,20 @@ def Draw(pagename,editmode=False):
         for i in range(1, 100):
             itemlist.insert(END,"    test" + str(i))
         root.update()
-        checkinfolabel = Label(anchor="w",bg=config['NetPOS']['ItemListBackgroundColor'],fg=config['NetPOS']['ItemListForegroundColor'],font=(config['NetPOS']['ItemListFont'],int(config['NetPOS']['ItemListFontSize'])),height=1,width=int(int(config['NetPOS']['ItemListTextLength'])-8))
+        checkinfolabel = customtkinter.CTkLabel(master=root,anchor="w",fg_color=config['NetPOS']['ItemListBackgroundColor'],text_color=config['NetPOS']['ItemListForegroundColor'],font=(config['NetPOS']['ItemListFont'],int(config['NetPOS']['ItemListFontSize'])),height=1,width=int(int(config['NetPOS']['ItemListTextLength'])-8))
         checkinfolabel.place(x=int(itemlist.winfo_x()),y=int(itemlist.winfo_y())+int(itemlist.winfo_height()))
-        checkinfolabel.config(text="    testtttt")
+        checkinfolabel.configure(text="    testtttt")
         root.update()
-        numberbuffer = Label(anchor="e",bg=config['NetPOS']['ItemListBackgroundColor'],fg=config['NetPOS']['ItemListForegroundColor'],font=(config['NetPOS']['ItemListFont'],int(config['NetPOS']['ItemListFontSize'])),height=1,width=8)
+        numberbuffer = customtkinter.CTkLabel(master=root,anchor="e",fg_color=config['NetPOS']['ItemListBackgroundColor'],text_color=config['NetPOS']['ItemListForegroundColor'],font=(config['NetPOS']['ItemListFont'],int(config['NetPOS']['ItemListFontSize'])),height=1,width=8)
         numberbuffer.place(x=int(itemlist.winfo_x())+int(checkinfolabel.winfo_width()),y=int(itemlist.winfo_y())+int(itemlist.winfo_height()))
-        numberbuffer.config(text="0.00    ")
+        numberbuffer.configure(text="0.00    ")
         miscwidgets.append(checkinfolabel)
         miscwidgets.append(numberbuffer)
         if config['NetPOS']['ShowScrollbar'] == "Yes":
             root.update()
-            itemlistscrollbar = Scrollbar(width=config['NetPOS']['ScrollbarThickness'],bg="gray")
-            itemlistscrollbar.place(x=int(itemlist.winfo_x())+int(itemlist.winfo_width()), y=itemlist.winfo_y(), width=config['NetPOS']['ScrollbarThickness'],height=(itemlist.winfo_height()+checkinfolabel.winfo_height()))
-            itemlistscrollbar.config(command = itemlist.yview)
+            itemlistscrollbar = customtkinter.CTkScrollbar(master=root,height=int(itemlist.winfo_height()+checkinfolabel.winfo_height()),width=int(config['NetPOS']['ScrollbarThickness']),fg_color="gray")
+            itemlistscrollbar.place(x=int(itemlist.winfo_x())+int(itemlist.winfo_width()), y=itemlist.winfo_y())
+            itemlistscrollbar.configure(command = itemlist.yview)
             itemlist.config(yscrollcommand=itemlistscrollbar.set)
             miscwidgets.append(itemlistscrollbar)
         miscwidgets.append(itemlist)
