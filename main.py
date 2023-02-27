@@ -521,17 +521,29 @@ def Clear(only=None):
             try:
                 widget.destroy()
             except:
-                widget.delete()
+                try:
+                    widget.delete()
+                except:
+                    pass
         for widget in settingwidgets:
             try:
                 widget.destroy()
             except:
-                widget.delete()
+                try:
+                    widget.delete()
+                except:
+                    pass
     if not only == "Widgets":
         for button in buttonwidgets:
             button.place_forget()
     for widget in settingwidgets:
-        widget.destroy()
+            try:
+                widget.destroy()
+            except:
+                try:
+                    widget.delete()
+                except:
+                    pass
     buttoncommands = {}
     buttondictionary = {}
 
@@ -718,7 +730,7 @@ def PagesMenu(defaultselected=None):
     root.update()
     Clear("Buttons")
     pagescrollbar = customtkinter.CTkScrollbar(root)
-    pagelist = Listbox(root,selectmode="single",justify=CENTER,width=16,height=20,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])),fg_color="white",text_color="black")
+    pagelist = customtkinter.CTkListbox(root,selectmode="single",justify=CENTER,width=16,height=20,font=("OpenSans",int(config['NetPOS']['WidgetFontSize'])),fg_color="white",text_color="black")
     pagelist.config(yscrollcommand=pagescrollbar.set)
     pagescrollbar.config(command=pagelist.yview,width=50,fg_color="gray")
     pagelist.place(x=500,y=200)
@@ -1169,7 +1181,7 @@ def Draw(pagename,editmode=False):
                     pass
         pass
     else:
-        itemlist = Listbox(bg=config['NetPOS']['ItemListBackgroundColor'],fg=config['NetPOS']['ItemListForegroundColor'],font=(config['NetPOS']['ItemListFont'],int(config['NetPOS']['ItemListFontSize'])),width=config['NetPOS']['ItemListTextLength'],height=config['NetPOS']['ItemListLines'])
+        itemlist = customtkinter.CTkListbox(bg=config['NetPOS']['ItemListBackgroundColor'],fg=config['NetPOS']['ItemListForegroundColor'],font=(config['NetPOS']['ItemListFont'],int(config['NetPOS']['ItemListFontSize'])),width=config['NetPOS']['ItemListTextLength'],height=config['NetPOS']['ItemListLines'])
         itemlist.place(x=config['NetPOS']['ItemListRoot_X'],y=config['NetPOS']['ItemListRoot_y'])
         for i in range(1, 100):
             itemlist.insert(END,"    test" + str(i))
